@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, filter } from 'rxjs';
-import { Customer } from '../models/customer';
+import { IBaseCustomer, ICustomer } from '../models/customer';
 
 export enum StorageStatus {
   SUCCESS = 0,
@@ -13,14 +13,14 @@ export enum StorageStatus {
 })
 export class StorageService {
   
-  store:Customer[] = [];
+  store:ICustomer[] = [];
   
-  private customerSource = new BehaviorSubject<Customer[]>(<any>null);
-  getCustomer$: Observable<Customer[]> = this.customerSource.asObservable().pipe(
+  private customerSource = new BehaviorSubject<ICustomer[]>(<any>null);
+  getCustomer$: Observable<ICustomer[]> = this.customerSource.asObservable().pipe(
     filter(x => x != null)
   );
 
-  private setCustomer(customers: Customer[]) {
+  private setCustomer(customers: ICustomer[]) {
     this.customerSource.next(customers);
   }
 
@@ -28,7 +28,7 @@ export class StorageService {
     this.getStorage()
   }
 
-  addItem(item: Customer){
+  addItem(item: IBaseCustomer){
     if (this.emailExistence(item)) {
       return StorageStatus.EMAILEXISTS;
     }
@@ -44,7 +44,7 @@ export class StorageService {
     return StorageStatus.SUCCESS;
   }
 
-  editItem(item: Customer){
+  editItem(item: ICustomer){
     if (this.emailExistence(item, true)) {
       return StorageStatus.EMAILEXISTS;
     }
@@ -57,21 +57,23 @@ export class StorageService {
     return StorageStatus.SUCCESS;
   }
 
-  deleteItem(item: Customer){
+  deleteItem(item: ICustomer){
     this.store = this.store.filter(customer => customer.id != item.id);
     this.updateState(this.store);
   }
 
   // in edit mode we should not compare itself with itself so we are using a boolean proprety named exceptItself
-  emailExistence(item: Customer, exceptItself = false){
-    const index = this.store.findIndex(customer => (!exceptItself || customer.id != item.id) && customer.email === item.email);
+  emailExistence(item: ICustomer | IBaseCustomer, exceptItself = false){
+    // @ts-ignore: if we come from addItem so we have IBaseCustomer which does not has id but instead !exceptItself is true and item.id will not execute
+    const index = this.store.findIndex(customer => (!exceptItself || customer.id != item.id) && customer.email.toLowerCase() === item.email.toLowerCase());
     return (index > -1);
   }
 
   // in edit mode we should not compare itself with itself so we are using a boolean proprety named exceptItself
-  personExistence(item: Customer, exceptItself = false){
-    const checkExistence = item.firstname + item.lastname + item.dateOfBirth;
-    const index = this.store.findIndex(customer => (!exceptItself || customer.id != item.id) && customer.firstname + customer.lastname + customer.dateOfBirth === checkExistence);
+  personExistence(item: ICustomer | IBaseCustomer, exceptItself = false){
+    const checkExistence = (item.firstname + item.lastname + item.dateOfBirth).toLowerCase();
+    // @ts-ignore: if we come from addItem so we have IBaseCustomer which does not has id but instead !exceptItself is true and item.id will not execute
+    const index = this.store.findIndex(customer => (!exceptItself || customer.id != item.id) && ((customer.firstname + customer.lastname + customer.dateOfBirth).toLowerCase() === checkExistence));
     return (index > -1);
   }
   
@@ -83,7 +85,7 @@ export class StorageService {
     this.setCustomer(this.store);
   }
 
-  updateState(modified:Customer[]){
+  updateState(modified: ICustomer[]){
     localStorage.setItem('customers', JSON.stringify(modified));
     this.setCustomer(modified);
   }

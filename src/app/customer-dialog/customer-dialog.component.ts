@@ -1,7 +1,7 @@
-import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { map, of } from 'rxjs';
-import { Customer } from '../shared/models/customer';
+import { map, of, startWith, tap } from 'rxjs';
+import { IBaseCustomer, ICustomer } from '../shared/models/customer';
 import { StorageService, StorageStatus } from '../shared/services/storage.service';
 import { PhoneNumberValidator } from '../shared/validators/custom-validators';
 
@@ -10,11 +10,11 @@ import { PhoneNumberValidator } from '../shared/validators/custom-validators';
   templateUrl: './customer-dialog.component.html',
   styleUrls: ['./customer-dialog.component.css'],
 })
-export class CustomerDialogComponent implements OnInit{
+export class CustomerDialogComponent implements OnInit, AfterViewInit{
 
-  @Output() dialogClosed = new EventEmitter<Customer | null>();
-
-  @Input() customer:Customer | null = null;
+  @Output() dialogClosed = new EventEmitter<ICustomer | null>();
+  @Input() customer: ICustomer | null = null;
+  @ViewChild('firstnameInput') firstnameInput!:ElementRef<HTMLInputElement>;
 
   customerForm = new FormGroup({
     firstname: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.maxLength(32)]),
@@ -30,6 +30,10 @@ export class CustomerDialogComponent implements OnInit{
   ) { 
   }
 
+  ngAfterViewInit(): void {
+    this.firstnameInput.nativeElement.focus();
+  }
+
   formgropChanged$ = of(false);
   ngOnInit() {
     if (this.customer) {
@@ -42,8 +46,8 @@ export class CustomerDialogComponent implements OnInit{
         bankAccountNumber:this.customer.bankAccountNumber,
       };
       this.customerForm.setValue(formInit);
-     
-      this.formgropChanged$ =this.customerForm.valueChanges.pipe(
+      this.formgropChanged$ = this.customerForm.valueChanges.pipe(
+        startWith(formInit),
         map((value) => (JSON.stringify(value) == JSON.stringify(formInit)) ? true : false),
       );
     }
@@ -61,11 +65,20 @@ export class CustomerDialogComponent implements OnInit{
     if (this.customerForm.invalid) {
       return;
     }
+    const trimedValue: IBaseCustomer = {
+      firstname:this.customerForm.value.firstname.trim(),
+      lastname: this.customerForm.value.lastname.trim(),
+      dateOfBirth:this.customerForm.value.dateOfBirth.trim(),
+      phoneNumber:this.customerForm.value.phoneNumber.trim(),
+      email: this.customerForm.value.email.trim(),
+      bankAccountNumber:this.customerForm.value.bankAccountNumber.trim(),
+    }; 
+
     let status = StorageStatus.SUCCESS;
     if (this.customer) {
-      status = this.storageService.editItem({...this.customerForm.value, id:this.customer.id});
+      status = this.storageService.editItem({...trimedValue, id:this.customer.id});
     } else {
-      status = this.storageService.addItem(this.customerForm.value);
+      status = this.storageService.addItem(trimedValue);
     }
     switch (status) {
       case StorageStatus.PERSONEXISTS:

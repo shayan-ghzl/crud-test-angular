@@ -9,17 +9,18 @@
         <form #form="ngForm" [formGroup]="customerForm" (ngSubmit)="submit()" autocomplete="off">
             <div class="field-row">
               <div class="form-field">
-                <label class="form-label">Firstname</label>
+                <label class="form-label">Firstname *</label>
                 <input class="form-control"
                     type="text"
                     autocomplete="off"
-                    formControlName="firstname">
+                    formControlName="firstname"
+                    #firstnameInput>
                 <small class="invalid-feedback" *ngIf="customerForm.controls['firstname'].invalid && customerForm.controls['firstname'].touched">
                   The field is mandatory and has a maximum of 32 characters
                 </small>
               </div>
               <div class="form-field">
-                <label class="form-label">Lastname</label>
+                <label class="form-label">Lastname *</label>
                 <input class="form-control"
                     type="text"
                     autocomplete="off"
@@ -31,7 +32,7 @@
             </div>
             <div class="field-row">
               <div class="form-field">
-                <label class="form-label">dateOfBirth</label>
+                <label class="form-label">dateOfBirth *</label>
                 <input class="form-control"
                     type="text"
                     autocomplete="off"
@@ -41,7 +42,7 @@
                 </small>
               </div>
               <div class="form-field">
-                <label class="form-label">phoneNumber</label>
+                <label class="form-label">phoneNumber *</label>
                 <input class="form-control"
                     type="text"
                     autocomplete="off"
@@ -53,7 +54,7 @@
             </div>
             <div class="field-row">
               <div class="form-field">
-                <label class="form-label">email</label>
+                <label class="form-label">email *</label>
                 <input class="form-control"
                     type="text"
                     autocomplete="off"
@@ -63,7 +64,7 @@
                 </small>
               </div>
               <div class="form-field">
-                <label class="form-label">bankAccountNumber</label>
+                <label class="form-label">bankAccountNumber *</label>
                 <input class="form-control"
                     type="text"
                     autocomplete="off"

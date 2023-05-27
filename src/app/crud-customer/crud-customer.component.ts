@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Customer } from '../shared/models/customer';
+import { ICustomer } from '../shared/models/customer';
 import { StorageService } from '../shared/services/storage.service';
 
 @Component({
@@ -22,15 +22,15 @@ export class CrudCustomerComponent  {
     return this._openDialog;
   }
 
-  customer:Customer | null = null;
+  customer: ICustomer | null = null;
 
   constructor(private storageService:StorageService) { }
 
-  deleteItem(customer:Customer){
+  deleteItem(customer: ICustomer){
     this.storageService.deleteItem(customer);
   }
 
-  editItem(customer:Customer){
+  editItem(customer: ICustomer){
     this.customer = customer;
     this.openDialog = true;
   }
