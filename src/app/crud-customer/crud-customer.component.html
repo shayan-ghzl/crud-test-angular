@@ -5,7 +5,7 @@
                 <button type="button" class="btn btn-sm btn-success" (click)="openDialog=true">Add New Item</button>
             </div>
         </div>
-        <ng-container *ngIf="(customerList | async) as list">
+        <ng-container *ngIf="(customerList$ | async) as list">
         <div class="table-responsive" *ngIf="list.length;else emptyTable">
             <table class="table table-sm table-striped">
                 <thead>

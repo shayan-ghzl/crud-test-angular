@@ -9,7 +9,7 @@ import { StorageService } from '../shared/services/storage.service';
 })
 export class CrudCustomerComponent  {
 
-  customerList = this.storageService.getCustomer$;
+  customerList$ = this.storageService.getCustomer$;
 
   _openDialog = false;
   set openDialog(value: boolean){

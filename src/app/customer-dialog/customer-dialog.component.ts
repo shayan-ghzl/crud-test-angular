@@ -31,7 +31,9 @@ export class CustomerDialogComponent implements OnInit, AfterViewInit{
   }
 
   ngAfterViewInit(): void {
-    this.firstnameInput.nativeElement.focus();
+    setTimeout(() => {
+      this.firstnameInput.nativeElement.focus();
+    }, 0);
   }
 
   formgropChanged$ = of(false);
