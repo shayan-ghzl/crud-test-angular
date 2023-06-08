@@ -14,8 +14,9 @@
                     type="text"
                     autocomplete="off"
                     formControlName="firstname"
-                    #firstnameInput>
-                <small class="invalid-feedback" *ngIf="customerForm.controls['firstname'].invalid && customerForm.controls['firstname'].touched">
+                    #firstnameInput
+                    [ngClass]="{'is-invalid': customerForm.controls['firstname'].invalid && customerForm.controls['firstname'].touched}">
+                <small class="invalid-feedback">
                   The field is mandatory and has a maximum of 32 characters
                 </small>
               </div>
@@ -24,8 +25,9 @@
                 <input class="form-control"
                     type="text"
                     autocomplete="off"
-                    formControlName="lastname">
-                <small class="invalid-feedback" *ngIf="customerForm.controls['lastname'].invalid && customerForm.controls['lastname'].touched">
+                    formControlName="lastname"
+                    [ngClass]="{'is-invalid': customerForm.controls['lastname'].invalid && customerForm.controls['lastname'].touched}">
+                <small class="invalid-feedback">
                   The field is mandatory and has a maximum of 32 characters
                 </small>
               </div>
@@ -36,8 +38,9 @@
                 <input class="form-control"
                     type="text"
                     autocomplete="off"
-                    formControlName="dateOfBirth">
-                <small class="invalid-feedback" *ngIf="customerForm.controls['dateOfBirth'].invalid && customerForm.controls['dateOfBirth'].touched">
+                    formControlName="dateOfBirth"
+                    [ngClass]="{'is-invalid': customerForm.controls['dateOfBirth'].invalid && customerForm.controls['dateOfBirth'].touched}">
+                <small class="invalid-feedback">
                   Correct format is xxxx/xx/xx
                 </small>
               </div>
@@ -46,8 +49,9 @@
                 <input class="form-control"
                     type="text"
                     autocomplete="off"
-                    formControlName="phoneNumber">
-                <small class="invalid-feedback" *ngIf="customerForm.controls['phoneNumber'].invalid && customerForm.controls['phoneNumber'].touched">
+                    formControlName="phoneNumber"
+                    [ngClass]="{'is-invalid': customerForm.controls['phoneNumber'].invalid && customerForm.controls['phoneNumber'].touched}">
+                <small class="invalid-feedback">
                   Iranian mobile number format
                 </small>
               </div>
@@ -58,8 +62,9 @@
                 <input class="form-control"
                     type="text"
                     autocomplete="off"
-                    formControlName="email">
-                <small class="invalid-feedback" *ngIf="customerForm.controls['email'].invalid && customerForm.controls['email'].touched">
+                    formControlName="email"
+                    [ngClass]="{'is-invalid': customerForm.controls['email'].invalid && customerForm.controls['email'].touched}">
+                <small class="invalid-feedback">
                   The email is not valid
                 </small>
               </div>
@@ -68,8 +73,9 @@
                 <input class="form-control"
                     type="text"
                     autocomplete="off"
-                    formControlName="bankAccountNumber">
-                <small class="invalid-feedback" *ngIf="customerForm.controls['bankAccountNumber'].invalid && customerForm.controls['bankAccountNumber'].touched">
+                    formControlName="bankAccountNumber"
+                    [ngClass]="{'is-invalid': customerForm.controls['bankAccountNumber'].invalid && customerForm.controls['bankAccountNumber'].touched}">
+                <small class="invalid-feedback">
                   Iranian card number format dddd-dddd-dddd-dddd
                 </small>
               </div>

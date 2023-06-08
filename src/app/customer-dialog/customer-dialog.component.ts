@@ -17,12 +17,12 @@ export class CustomerDialogComponent implements OnInit, AfterViewInit{
   @ViewChild('firstnameInput') firstnameInput!:ElementRef<HTMLInputElement>;
 
   customerForm = new FormGroup({
-    firstname: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.maxLength(32)]),
-    lastname: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.maxLength(32)]),
-    dateOfBirth: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern('^[1-4]\\d{3}\\/((0[1-6]\\/((3[0-1])|([1-2][0-9])|(0[1-9])))|((1[0-2]|(0[7-9]))\\/(30|([1-2][0-9])|(0[1-9]))))$')]),
+    firstname: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern(/^[a-z0-9\u0627-\u06cc]{3,32}$/i)]),
+    lastname: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern(/^[a-z0-9\u0627-\u06cc]{3,32}$/i)]),
+    dateOfBirth: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern(/^[1-4]\d{3}\/(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])$/)]),
     phoneNumber:new FormControl({ value: '', disabled: false }, [PhoneNumberValidator('IR')]),
-    email: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]),
-    bankAccountNumber: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern('^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}$')]),
+    email: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/)]),
+    bankAccountNumber: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern(/^\d{4}-\d{4}-\d{4}-\d{4}$/)]),
   });
 
   constructor(
