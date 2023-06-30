@@ -1,11 +1,13 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ICustomer } from '../shared/models/customer';
 import { StorageService } from '../shared/services/storage.service';
+
 
 @Component({
   selector: 'app-crud-customer',
   templateUrl: './crud-customer.component.html',
-  styleUrls: ['./crud-customer.component.css']
+  styleUrls: ['./crud-customer.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CrudCustomerComponent  {
 

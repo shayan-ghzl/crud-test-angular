@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { map, of, startWith, tap } from 'rxjs';
 import { IBaseCustomer, ICustomer } from '../shared/models/customer';
@@ -9,6 +9,7 @@ import { PhoneNumberValidator } from '../shared/validators/custom-validators';
   selector: 'app-customer-dialog',
   templateUrl: './customer-dialog.component.html',
   styleUrls: ['./customer-dialog.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CustomerDialogComponent implements OnInit, AfterViewInit{
 
@@ -31,9 +32,7 @@ export class CustomerDialogComponent implements OnInit, AfterViewInit{
   }
 
   ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.firstnameInput.nativeElement.focus();
-    }, 0);
+    this.firstnameInput.nativeElement.focus();
   }
 
   formgropChanged$ = of(false);
