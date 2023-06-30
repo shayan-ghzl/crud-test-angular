@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CustomerDialogComponent } from './customer-dialog.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 describe('CustomerDialogComponent', () => {
   let component: CustomerDialogComponent;
@@ -8,7 +9,8 @@ describe('CustomerDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CustomerDialogComponent ]
+      declarations: [ CustomerDialogComponent ],
+      imports: [ReactiveFormsModule],
     })
     .compileComponents();
   });
