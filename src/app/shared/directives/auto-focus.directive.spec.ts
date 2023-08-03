@@ -16,7 +16,7 @@ fdescribe('AutoFocusDirective', () => {
       imports: [ReactiveFormsModule],
     }).compileComponents();
     fixture = TestBed.createComponent(CustomerDialogComponent);
-    element = fixture.debugElement.query(By.css('[appAutoFocus]'));
+    element = fixture.debugElement.query(By.directive(AutoFocusDirective));
     directive = element.injector.get(AutoFocusDirective);
   });
 
@@ -33,6 +33,8 @@ fdescribe('AutoFocusDirective', () => {
     const spy = spyOn(directive, 'ngAfterViewInit').and.callFake(() => {
       console.log('whatever you say officer');
     });
+    // TODO: i do not know why ngAfterViewInit has not been called yet
+    // directive.ngAfterViewInit();
     fixture.detectChanges();
     expect(spy).toHaveBeenCalled();
   });
