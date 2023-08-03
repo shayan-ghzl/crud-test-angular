@@ -1,6 +1,6 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { map, of, startWith, tap } from 'rxjs';
+import { map, of, startWith } from 'rxjs';
 import { IBaseCustomer, ICustomer } from '../shared/models/customer';
 import { StorageService, StorageStatus } from '../shared/services/storage.service';
 import { PhoneNumberValidator } from '../shared/validators/custom-validators';

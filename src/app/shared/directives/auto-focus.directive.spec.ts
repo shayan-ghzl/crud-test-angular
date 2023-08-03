@@ -38,4 +38,11 @@ fdescribe('AutoFocusDirective', () => {
     fixture.detectChanges();
     expect(spy).toHaveBeenCalled();
   });
+
+  it('should autofocus on input element', () => {
+    const spy = spyOn(element.nativeNode, 'focus');
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalled();
+  });
 });
+
