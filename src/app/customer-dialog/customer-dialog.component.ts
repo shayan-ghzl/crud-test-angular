@@ -11,7 +11,7 @@ import { PhoneNumberValidator } from '../shared/validators/custom-validators';
   styleUrls: ['./customer-dialog.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CustomerDialogComponent implements OnInit, AfterViewInit{
+export class CustomerDialogComponent implements OnInit, AfterViewInit {
 
   @Output() dialogClosed = new EventEmitter<ICustomer | null>();
   @Input() customer: ICustomer | null = null;
@@ -21,14 +21,15 @@ export class CustomerDialogComponent implements OnInit, AfterViewInit{
     firstname: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern(/^[a-z0-9\u0627-\u06cc]{3,32}$/i)]),
     lastname: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern(/^[a-z0-9\u0627-\u06cc]{3,32}$/i)]),
     dateOfBirth: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern(/^[1-4]\d{3}\/(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])$/)]),
-    phoneNumber:new FormControl({ value: '', disabled: false }, [PhoneNumberValidator('IR')]),
+    // phoneNumber:new FormControl({ value: '', disabled: false }, [PhoneNumberValidator('IR')]),
+    phoneNumber: new FormControl({ value: '', disabled: false }, [PhoneNumberValidator()]),
     email: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/)]),
     bankAccountNumber: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern(/^\d{4}-\d{4}-\d{4}-\d{4}$/)]),
   });
 
   constructor(
-    private storageService:StorageService
-  ) { 
+    private storageService: StorageService
+  ) {
   }
 
   ngAfterViewInit(): void {
@@ -39,12 +40,12 @@ export class CustomerDialogComponent implements OnInit, AfterViewInit{
   ngOnInit() {
     if (this.customer) {
       const formInit = {
-        firstname:this.customer.firstname,
+        firstname: this.customer.firstname,
         lastname: this.customer.lastname,
-        dateOfBirth:this.customer.dateOfBirth,
-        phoneNumber:this.customer.phoneNumber,
+        dateOfBirth: this.customer.dateOfBirth,
+        phoneNumber: this.customer.phoneNumber,
         email: this.customer.email,
-        bankAccountNumber:this.customer.bankAccountNumber,
+        bankAccountNumber: this.customer.bankAccountNumber,
       };
       this.customerForm.setValue(formInit);
       this.formgropChanged$ = this.customerForm.valueChanges.pipe(
@@ -55,46 +56,46 @@ export class CustomerDialogComponent implements OnInit, AfterViewInit{
   }
 
   @HostListener('document:keyup.escape')
-  closeDialog(){
+  closeDialog() {
     this.dialogClosed.emit(this.customer);
     this.customerForm.reset();
     this.customer = null;
   }
-  
+
   @HostListener('document:keyup.enter')
-  submit(){
+  submit() {
     if (this.customerForm.invalid) {
       return;
     }
     const trimedValue: IBaseCustomer = {
-      firstname:this.customerForm.value.firstname.trim(),
+      firstname: this.customerForm.value.firstname.trim(),
       lastname: this.customerForm.value.lastname.trim(),
-      dateOfBirth:this.customerForm.value.dateOfBirth.trim(),
-      phoneNumber:this.customerForm.value.phoneNumber.trim(),
+      dateOfBirth: this.customerForm.value.dateOfBirth.trim(),
+      phoneNumber: this.customerForm.value.phoneNumber.trim(),
       email: this.customerForm.value.email.trim(),
-      bankAccountNumber:this.customerForm.value.bankAccountNumber.trim(),
-    }; 
+      bankAccountNumber: this.customerForm.value.bankAccountNumber.trim(),
+    };
 
     let status = StorageStatus.SUCCESS;
     if (this.customer) {
-      status = this.storageService.editItem({...trimedValue, id:this.customer.id});
+      status = this.storageService.editItem({ ...trimedValue, id: this.customer.id });
     } else {
       status = this.storageService.addItem(trimedValue);
     }
     switch (status) {
       case StorageStatus.PERSONEXISTS:
-        this.customerForm.controls['firstname'].setErrors({'incorrect': true});
+        this.customerForm.controls['firstname'].setErrors({ 'incorrect': true });
         break;
 
       case StorageStatus.EMAILEXISTS:
-        this.customerForm.controls['email'].setErrors({'incorrect': true});
+        this.customerForm.controls['email'].setErrors({ 'incorrect': true });
         break;
-        
+
       default:
         this.closeDialog();
         break;
     }
-    
+
   }
 
 }
