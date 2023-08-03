@@ -15,7 +15,7 @@ export class CustomerDialogComponent implements OnInit, AfterViewInit{
 
   @Output() dialogClosed = new EventEmitter<ICustomer | null>();
   @Input() customer: ICustomer | null = null;
-  @ViewChild('firstnameInput') firstnameInput!:ElementRef<HTMLInputElement>;
+  // @ViewChild('firstnameInput') firstnameInput!:ElementRef<HTMLInputElement>;
 
   customerForm = new FormGroup({
     firstname: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.pattern(/^[a-z0-9\u0627-\u06cc]{3,32}$/i)]),
@@ -32,7 +32,7 @@ export class CustomerDialogComponent implements OnInit, AfterViewInit{
   }
 
   ngAfterViewInit(): void {
-    this.firstnameInput.nativeElement.focus();
+    // this.firstnameInput.nativeElement.focus();  
   }
 
   formgropChanged$ = of(false);

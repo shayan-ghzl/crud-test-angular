@@ -13,8 +13,8 @@
                 <input class="form-control"
                     type="text"
                     autocomplete="off"
+                    appAutoFocus
                     formControlName="firstname"
-                    #firstnameInput
                     [ngClass]="{'is-invalid': customerForm.controls['firstname'].invalid && customerForm.controls['firstname'].touched}">
                 <small class="invalid-feedback">
                   The field is mandatory and has a maximum of 32 characters
