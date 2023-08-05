@@ -1,11 +1,11 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AutoFocusDirective } from './auto-focus.directive';
-import { DebugElement } from '@angular/core';
+import { Component, DebugElement, ViewChild } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CustomerDialogComponent } from 'src/app/customer-dialog/customer-dialog.component';
 import { By } from '@angular/platform-browser';
 
-fdescribe('AutoFocusDirective', () => {
+describe('AutoFocusDirective', () => {
   let fixture: ComponentFixture<any>;
   let element: DebugElement;
   let directive: AutoFocusDirective;
@@ -45,4 +45,36 @@ fdescribe('AutoFocusDirective', () => {
     expect(spy).toHaveBeenCalled();
   });
 });
+// --------------------------second-test-suite-----------------------------
+@Component({
+  template: `
+    <div>
+      <input type="text" appAutoFocus>
+    </div>
+    `,
+})
+class HostComponent {
+}
 
+fdescribe('FocusTrap', () => {
+  let fixture: ComponentFixture<HostComponent>;
+
+  beforeEach(async () => {
+    TestBed.configureTestingModule({
+      declarations: [
+        HostComponent,
+        AutoFocusDirective
+      ],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(HostComponent);
+  });
+
+  it('spy on input', () => {
+    let inputElement = fixture.debugElement.query(By.css('input')).nativeElement;
+    const spy = spyOn(inputElement, 'focus');
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalled();
+  });
+
+});
